@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}New Workspace · {{ app_name }}{% endblock %}
+{% block content %}
+<section class="form-page">
+  <div class="page-head compact">
+    <div>
+      <p class="eyebrow">{{ "First Workspace" if first else "Workspace" }}</p>
+      <h1>Create Your First Workspace</h1>
+    </div>
+  </div>
+  <form class="panel form-card" method="post" action="/workspaces">
+    <label>Business or company name<input name="name" required maxlength="120" placeholder="Acme Traders"></label>
+    <label>Description<textarea name="description" rows="4" maxlength="500" placeholder="Short note about this workspace"></textarea></label>
+    <label>Currency
+      <select name="currency">
+        <option value="PKR">PKR</option>
+        <option value="USD">USD</option>
+        <option value="INR">INR</option>
+        <option value="AED">AED</option>
+        <option value="GBP">GBP</option>
+      </select>
+    </label>
+    <button class="button" type="submit">Create Workspace</button>
+  </form>
+</section>
+{% endblock %}

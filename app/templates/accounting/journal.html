@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}General Journal · {{ workspace.name }}{% endblock %}
+{% block content %}
+<div class="workspace-layout">
+  {% include "accounting/_workspace_nav.html" %}
+  <section class="panel table-panel">
+    <div class="panel-head">
+      <div>
+        <p class="eyebrow">Posted Entries</p>
+        <h1>General</h1>
+      </div>
+    </div>
+    <div class="journal-book">
+      {% for entry in entries %}
+      <article class="journal-card">
+        <div class="journal-meta">
+          <strong>{{ entry.date.strftime("%d %b %Y") }}</strong>
+          <span>{{ entry.reference_no or "No reference" }}</span>
+        </div>
+        <div class="journal-lines">
+          {% for line in entry.lines %}
+          <div class="journal-line">
+            <span class="account-name">{{ line.account_name }}</span>
+            <span class="money debit">{{ workspace.currency }} {{ line.debit|money }}</span>
+            <span class="money credit">{{ workspace.currency }} {{ line.credit|money }}</span>
+          </div>
+          {% endfor %}
+        </div>
+        <p>{{ entry.description }}</p>
+      </article>
+      {% else %}
+      <div class="empty-state">No journal entries yet.</div>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+{% endblock %}

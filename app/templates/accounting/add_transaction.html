@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Add Transaction · {{ workspace.name }}{% endblock %}
+{% block content %}
+<div class="workspace-layout">
+  {% include "accounting/_workspace_nav.html" %}
+  <section class="panel form-card entry-form">
+    <div class="panel-head">
+      <div>
+        <p class="eyebrow">Pending Entry</p>
+        <h1>Add Trnx</h1>
+      </div>
+    </div>
+    {% if error == "accounts" %}
+    <div class="alert">Debit account aur credit account alag choose karo.</div>
+    {% elif error == "invalid" %}
+    <div class="alert">Date ya amount valid nahi hai.</div>
+    {% endif %}
+    <form method="post" action="/workspaces/{{ workspace.id }}/transactions" data-transaction-form>
+      <div class="two-cols">
+        <label>Date<input type="date" name="date" required></label>
+        <label>Type
+          <select name="transaction_type" required>
+            {% for t in transaction_types %}<option>{{ t }}</option>{% endfor %}
+          </select>
+        </label>
+      </div>
+      <label>Amount<input type="number" name="amount" min="0.01" step="0.01" required></label>
+      <label>Description<input name="description" required maxlength="500"></label>
+      <div class="two-cols">
+        <label>Reference No<input name="reference_no" maxlength="80"></label>
+        <label>Payment Method
+          <select name="payment_method" required>
+            {% for method in payment_methods %}<option value="{{ method }}">{{ method|title }}</option>{% endfor %}
+          </select>
+        </label>
+      </div>
+      <div class="two-cols">
+        <label>Credit Account
+          <select name="account_from" required>
+            {% for account in accounts %}
+            <option value="{{ account.id }}" {% if account.name == "Sales Revenue" %}selected{% endif %}>{{ account.name }} ({{ account.account_type }})</option>
+            {% endfor %}
+          </select>
+        </label>
+        <label>Debit Account
+          <select name="account_to" required>
+            {% for account in accounts %}
+            <option value="{{ account.id }}" {% if account.name == "Cash" %}selected{% endif %}>{{ account.name }} ({{ account.account_type }})</option>
+            {% endfor %}
+          </select>
+        </label>
+      </div>
+      <button class="button full" type="submit">Save Pending Trnx</button>
+    </form>
+  </section>
+</div>
+{% endblock %}

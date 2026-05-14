@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Register · {{ app_name }}{% endblock %}
+{% block content %}
+<section class="auth-layout">
+  <div class="auth-copy">
+    <p class="eyebrow">Start Clean</p>
+    <h1>Create your finance command center.</h1>
+    <p>Set up your profile first, then create a workspace for each business or company.</p>
+  </div>
+  <form class="panel auth-card" method="post" action="/register">
+    <h2>Create Account</h2>
+    {% if error %}<div class="alert">{{ error }}</div>{% endif %}
+    <label>Full name<input type="text" name="full_name" required autocomplete="name"></label>
+    <label>Email<input type="email" name="email" required autocomplete="email"></label>
+    <label>Password<input type="password" name="password" required minlength="8" autocomplete="new-password"></label>
+    <label>Confirm password<input type="password" name="confirm_password" required minlength="8" autocomplete="new-password"></label>
+    <button class="button full" type="submit">Create Account</button>
+    <p class="muted center">Already have an account? <a href="/login">Login</a></p>
+  </form>
+</section>
+{% endblock %}

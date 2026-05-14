@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · {{ app_name }}{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div>
+    <p class="eyebrow">Dashboard</p>
+    <h1>Your Workspaces</h1>
+  </div>
+  <a class="button" href="/workspaces/new">New Workspace</a>
+</section>
+<section class="workspace-grid">
+  {% for workspace in workspaces %}
+  <a class="workspace-card panel" href="/workspaces/{{ workspace.id }}/transactions/new">
+    <div class="workspace-icon">{{ workspace.name[:1]|upper }}</div>
+    <div>
+      <h2>{{ workspace.name }}</h2>
+      <p>{{ workspace.description or "No description added yet." }}</p>
+      <span>{{ workspace.currency }} · {{ workspace.created_at.strftime("%d %b %Y") }}</span>
+    </div>
+  </a>
+  {% else %}
+  <div class="empty panel">
+    <h2>No workspaces yet</h2>
+    <p>Create your first company workspace to start entering transactions.</p>
+    <a class="button" href="/workspaces/new?first=1">Create Workspace</a>
+  </div>
+  {% endfor %}
+</section>
+{% endblock %}

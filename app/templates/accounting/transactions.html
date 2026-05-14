@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Transactions · {{ workspace.name }}{% endblock %}
+{% block content %}
+<div class="workspace-layout">
+  {% include "accounting/_workspace_nav.html" %}
+  <div class="panel table-panel">
+    <div class="panel-head split">
+      <div>
+        <p class="eyebrow">Awaiting Confirmation</p>
+        <h1>Trnx List</h1>
+      </div>
+      <a class="button small" href="/workspaces/{{ workspace.id }}/transactions/new">Add Trnx</a>
+    </div>
+    <form class="filters" method="get">
+      <select name="type">
+        <option value="">All Types</option>
+        {% for t in transaction_types %}<option value="{{ t }}" {% if filters.type == t %}selected{% endif %}>{{ t }}</option>{% endfor %}
+      </select>
+      <input type="date" name="date_from" value="{{ filters.date_from }}">
+      <input type="date" name="date_to" value="{{ filters.date_to }}">
+      <select name="account">
+        <option value="">All Accounts</option>
+        {% for a in accounts %}<option value="{{ a.id }}" {% if filters.account == a.id|string %}selected{% endif %}>{{ a.name }}</option>{% endfor %}
+      </select>
+      <button class="button small" type="submit">Filter</button>
+    </form>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Date</th><th>Type</th><th>Amount</th><th>Debit</th><th>Credit</th><th>Method</th><th>Action</th></tr></thead>
+        <tbody>
+          {% for tx in transactions %}
+          <tr>
+            <td>{{ tx.date.strftime("%d %b %Y") }}</td>
+            <td>{{ tx.transaction_type }}</td>
+            <td>{{ workspace.currency }} {{ tx.amount|money }}</td>
+            <td>{{ tx.account_to.name }}</td>
+            <td>{{ tx.account_from.name }}</td>
+            <td>{{ tx.payment_method|title }}</td>
+            <td>
+              <form method="post" action="/workspaces/{{ workspace.id }}/transactions/{{ tx.id }}/confirm">
+                <button class="button small confirm" type="submit">Confirm</button>
+              </form>
+            </td>
+          </tr>
+          {% else %}
+          <tr><td colspan="7" class="muted center">No pending transactions found.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

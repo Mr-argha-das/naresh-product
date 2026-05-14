@@ -1,0 +1,21 @@
+<aside class="workspace-sidebar">
+  <div class="sidebar-section">
+    <span class="sidebar-label">Workspace</span>
+    <form>
+      <select class="workspace-switcher" onchange="if (this.value) window.location.href = this.value">
+        {% for item in workspaces %}
+        <option value="/workspaces/{{ item.id }}/transactions/new" {% if item.id == workspace.id %}selected{% endif %}>
+          {{ item.name }} · {{ item.currency }}
+        </option>
+        {% endfor %}
+      </select>
+    </form>
+  </div>
+  <nav class="sidebar-menu">
+    <a class="{{ 'active' if active_page == 'add' else '' }}" href="/workspaces/{{ workspace.id }}/transactions/new">Add Trnx</a>
+    <a class="{{ 'active' if active_page == 'transactions' else '' }}" href="/workspaces/{{ workspace.id }}/transactions">Trnx List</a>
+    <a class="{{ 'active' if active_page == 'journal' else '' }}" href="/workspaces/{{ workspace.id }}/journal">General</a>
+    <a class="{{ 'active' if active_page == 'ledger' else '' }}" href="/workspaces/{{ workspace.id }}/ledger">Ledger</a>
+  </nav>
+  <a class="sidebar-link" href="/dashboard">All Workspaces</a>
+</aside>

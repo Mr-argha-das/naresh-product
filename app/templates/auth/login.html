@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Login · {{ app_name }}{% endblock %}
+{% block content %}
+<section class="auth-layout">
+  <div class="auth-copy">
+    <p class="eyebrow">Finance Management</p>
+    <h1>Welcome back to your books.</h1>
+    <p>Track workspaces, transactions, journals, and ledgers with clean double-entry logic built in.</p>
+  </div>
+  <form class="panel auth-card" method="post" action="/login">
+    <h2>Login</h2>
+    {% if error %}<div class="alert">{{ error }}</div>{% endif %}
+    <label>Email<input type="email" name="email" required autocomplete="email"></label>
+    <label>Password<input type="password" name="password" required autocomplete="current-password"></label>
+    <button class="button full" type="submit">Login</button>
+    <p class="muted center">New here? <a href="/register">Create an account</a></p>
+  </form>
+</section>
+{% endblock %}

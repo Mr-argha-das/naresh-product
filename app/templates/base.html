@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ app_name }}{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', path='css/styles.css') }}">
+  <script defer src="{{ url_for('static', path='js/app.js') }}"></script>
+</head>
+<body>
+  <div class="ambient"></div>
+  <header class="topbar">
+    <a class="brand" href="{{ '/dashboard' if user else '/login' }}">
+      <span class="brand-mark">F</span>
+      <span>{{ app_name }}</span>
+    </a>
+    <nav class="nav">
+      {% if user %}
+      <span class="user-chip">{{ user.full_name }}</span>
+      <form method="post" action="/logout">
+        <button class="icon-button" type="submit" title="Logout" aria-label="Logout">
+          <span>↗</span>
+        </button>
+      </form>
+      {% else %}
+      <a href="/login">Login</a>
+      <a class="button small" href="/register">Register</a>
+      {% endif %}
+    </nav>
+  </header>
+  <main class="shell">
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
